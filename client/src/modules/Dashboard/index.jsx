@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { IoCallOutline } from "react-icons/io5";
 import Innput from '../../components/Innput'
 import { IoIosSend } from "react-icons/io";
@@ -13,7 +13,11 @@ function DashBoard() {
   const [previousMessage,setPreviousMessage]=useState({});
   const [users,setUsers]=useState([]);
   const [socket,setSocket]=useState(null);
+  const messageRef=useRef(null);
   console.log(previousMessage);
+  useEffect(()=>{
+   messageRef?.current?.scrollIntoView({behavior:'smooth'});
+  },[previousMessage.messages])
   useEffect(()=>{
     setSocket(io('http://localhost:8080'));
   },[])
@@ -187,16 +191,28 @@ function DashBoard() {
     previousMessage.messages.map(({message,user:{id}={}})=>{
       if(id===user?.id){
         return(
-          <div className='max-w-[80%] sm:max-w-[40%] rounded-b-xl rounded-tl-xl ml-auto bg-primary  mb-6 text-white p-4'key={message} >
+          <>
+   <div className='max-w-[80%] sm:max-w-[40%] rounded-b-xl rounded-tl-xl ml-auto bg-primary  mb-6 text-white p-4' >
           {message}
         </div>
+        <div ref={messageRef}>
+
+        </div>
+          </>
+         
         )
        
       }else{
         return (
-          <div className='max-w-[80%] sm:max-w-[40%] rounded-b-xl rounded-tr-xl bg-secondary mb-6 p-4' key={message}>
+          <>
+            <div className='max-w-[80%] sm:max-w-[40%] rounded-b-xl rounded-tr-xl bg-secondary mb-6 p-4' >
       {message} 
     </div>
+    <div ref={messageRef}>
+
+</div>
+          </>
+        
         )
       }
       
