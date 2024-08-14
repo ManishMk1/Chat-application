@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import {io} from 'socket.io-client'
 import Avatar from '../../assets/avatar-svgrepo-com.svg'
 import { useNavigate } from 'react-router-dom';
+
 function DashBoard() {
   const [user,setUser]=useState(JSON.parse(localStorage.getItem('user:detail')));
   const [conversation,setConversation]=useState([]);
@@ -58,7 +59,7 @@ function DashBoard() {
   useEffect(()=>{
     const fetchConversations=async()=>{
       const loggedInUser=JSON.parse(localStorage.getItem('user:detail'));
-      const res=await fetch(`http://localhost:8000/api/conversation/${loggedInUser.id}`,{
+      const res=await fetch(`/foo/api/conversation/${loggedInUser.id}`,{
         method:"GET",
         headers:{
           'Content-Type':'application/json',
@@ -72,7 +73,7 @@ function DashBoard() {
   },[])
   useEffect(()=>{
     const fetAllUsers=async()=>{
-      const res=await fetch(`http://localhost:8000/api/users/${user?.id}`,{
+      const res=await fetch(`/foo/api/users/${user?.id}`,{
         method:"GET",
         headers:{
           'Content-Type':'application/json',
@@ -85,7 +86,7 @@ function DashBoard() {
     fetAllUsers();
   },[])
   const fetchMessages=async(conversationId,receiver)=>{
-    const res=await fetch(`http://localhost:8000/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
+    const res=await fetch(`/foo/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
       method:"GET",
       // ...(conversationId==='new'&& {
       //   body:JSON.stringify({senderId:user?.id,receiverId:previousMessage?.receiver?.receiverId})}),
@@ -105,7 +106,7 @@ function DashBoard() {
       message,
       receiverId:previousMessage?.receiver?.receiverId
     })
-    const res=await fetch(`http://localhost:8000/api/message`,{
+    const res=await fetch(`/foo/api/message`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json',

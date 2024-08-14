@@ -14,7 +14,7 @@ function Form({isSignInPage=false}) {
   const handleSubmit=async(e)=>{
     e.preventDefault();
     console.log(userData);
-    const res=await fetch(`http://localhost:8000/api/${isSignInPage?'login':'register'}`,{
+    const res=await fetch(`/foo/api/${isSignInPage?'login':'register'}`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json'
