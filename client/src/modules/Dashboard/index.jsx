@@ -6,6 +6,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import { useEffect, useState } from 'react'
 import {io} from 'socket.io-client'
 import Avatar from '../../assets/avatar-svgrepo-com.svg'
+import { useNavigate } from 'react-router-dom';
 function DashBoard() {
   const [user,setUser]=useState(JSON.parse(localStorage.getItem('user:detail')));
   const [conversation,setConversation]=useState([]);
@@ -14,6 +15,13 @@ function DashBoard() {
   const [users,setUsers]=useState([]);
   const [socket,setSocket]=useState(null);
   const messageRef=useRef(null);
+  const navigate=useNavigate();
+  const logout=()=>{
+    localStorage.removeItem('user:token');
+    localStorage.removeItem('user:detail');
+    navigate('/user/sign_in');
+    
+  }
   console.log(previousMessage);
   useEffect(()=>{
    messageRef?.current?.scrollIntoView({behavior:'smooth'});
@@ -231,7 +239,8 @@ function DashBoard() {
     
     </>
         </div>
-        <div className='w-1/4 h-screen'>
+        <div className='w-1/4 h-screen relative'>
+        <button className='absolute right-0 mr-2 mt-2 p-2 bg-slate-500 rounded-xl' onClick={()=>logout()}>Logout</button>
         <div>
           <h3 className='mx-4 my-10 text-primary'> People</h3>
           <div className='max-h-[60vh] w-full mb-4 overflow-y-scroll no-scrollbar'>{

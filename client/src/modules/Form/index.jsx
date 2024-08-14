@@ -23,6 +23,9 @@ function Form({isSignInPage=false}) {
     })
     if(res.status===400){
       alert("Invalid Credentials");
+    }
+    else if(res.status==200){
+      navigate('/user/sign_in')
     }else{
       const resData=await res.json();
     if(resData.token){
