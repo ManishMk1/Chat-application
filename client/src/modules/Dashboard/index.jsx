@@ -59,7 +59,7 @@ function DashBoard() {
   useEffect(()=>{
     const fetchConversations=async()=>{
       const loggedInUser=JSON.parse(localStorage.getItem('user:detail'));
-      const res=await fetch(`/foo/api/conversation/${loggedInUser.id}`,{
+      const res=await fetch(`/api/conversation/${loggedInUser.id}`,{
         method:"GET",
         headers:{
           'Content-Type':'application/json',
@@ -73,7 +73,7 @@ function DashBoard() {
   },[])
   useEffect(()=>{
     const fetAllUsers=async()=>{
-      const res=await fetch(`/foo/api/users/${user?.id}`,{
+      const res=await fetch(`/api/users/${user?.id}`,{
         method:"GET",
         headers:{
           'Content-Type':'application/json',
@@ -86,7 +86,7 @@ function DashBoard() {
     fetAllUsers();
   },[])
   const fetchMessages=async(conversationId,receiver)=>{
-    const res=await fetch(`/foo/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
+    const res=await fetch(`/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`,{
       method:"GET",
       // ...(conversationId==='new'&& {
       //   body:JSON.stringify({senderId:user?.id,receiverId:previousMessage?.receiver?.receiverId})}),
@@ -106,7 +106,7 @@ function DashBoard() {
       message,
       receiverId:previousMessage?.receiver?.receiverId
     })
-    const res=await fetch(`/foo/api/message`,{
+    const res=await fetch(`/api/message`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
