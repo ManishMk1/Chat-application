@@ -1,13 +1,15 @@
 require('dotenv').config();
 
 const express = require('express');
-const app = express();
-const Users = require('./models/Users');
 
+const app = express();
+const server=require('http').createServer(app);
+const Users = require('./models/Users');
+const path = require('path');
 
 const cors = require('cors');
 const userRouter = require('./routes/api');
-const io = require('socket.io')(process.env.SOCKET_PORT, {
+const io = require('socket.io')(server, {
     cors: {
         origin: process.env.FRONTEND_LINK,
     }
@@ -18,6 +20,22 @@ require('./db/connection');
 // Import  files
 
 const port = process.env.PORT || 8000;
+
+// ---------------------------Deployment------------------------------
+// const __dirname1 = path.resolve();
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(__dirname, 'dist')));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, "dist", "index.html"));
+//     })
+// } else {
+//     app.get("/", (req, res) => {
+//         res.send("API is Running Successfully");
+//     })
+// }
+
+// ---------------------------End Deployment------------------------
+
 
 //socket io
 let users = [];
@@ -71,6 +89,6 @@ app.use(cors());
 //Routes
 app.use('/api', userRouter);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('listening on port ' + port);
 })

@@ -28,7 +28,7 @@ function DashBoard() {
    messageRef?.current?.scrollIntoView({behavior:'smooth'});
   },[previousMessage.messages])
   useEffect(()=>{
-    setSocket(io('http://localhost:8080'));
+    setSocket(io(import.meta.env.VITE_BACKEND_LINK));
   },[])
   useEffect(()=>{
     socket?.emit('addUser',user?.id);
